@@ -16,6 +16,9 @@ usersRouter.post('/', async (request, response) => {
             password
         });
 
+        // password is gonna be saved id DB but the hash will not be showed  
+        delete user.password;
+
         return response.json(user);
     }
     catch (err) {
