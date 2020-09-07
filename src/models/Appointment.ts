@@ -1,24 +1,28 @@
 // const { v4: uuid } = require('uuid');
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm'
+import User from './Users'
 
-// @ eh um decorator
-// Funciona como função, que recebe a classe abaixo com um parâmetro da entidade
 @Entity('appointments')
 class Appointment {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
-    provider: string;
+    provider_id: string;
+
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'provider_id' })
+    provider: User;
 
     @Column('time with time zone')
     date: Date;
 
-    // constructor({ provider, date }: Omit<Appointment, 'id'>) {
-    //     this.id = uuid();
-    //     this.provider = provider;
-    //     this.date = date;
-    // }
+    @CreateDateColumn()
+    created_at: Date;
+
+    @CreateDateColumn()
+    updated_at: Date;
+
 }
 
 export default Appointment;
