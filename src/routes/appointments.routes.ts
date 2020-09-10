@@ -3,13 +3,18 @@ import { getCustomRepository } from 'typeorm'
 import { parseISO } from 'date-fns'
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../service/CreateAppointmentService';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 // Rota: Receber a requisição, chamar outro arquivo, devolver uma resposta
 
 const appointmentsRouter = Router();
 
+appointmentsRouter.use(ensureAuthenticated);
+
 // GET https://localhost:3333/appointments
 
 appointmentsRouter.get('/', async (request, response) => {
+
+    // console.log(request.user)
 
     // console.log('[GET] /appointments')
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
